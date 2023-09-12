@@ -9,27 +9,28 @@ if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
     $user = $userCrud->getUserById($userId);
-}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $login = trim(htmlspecialchars($_POST['login']));
-    $firstname = trim(htmlspecialchars($_POST['firstname']));
-    $lastname = trim(htmlspecialchars($_POST['lastname']));
-    $password = trim(htmlspecialchars($_POST['password']));
-    $user = $userCrud->updateUser($id, $login, $firstname, $lastname, $password);
+    // Vérifiez si le formulaire a été soumis (méthode POST)
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Récupérez les données du formulaire tout en appliquant htmlspecialchars et trim
+        $login = trim(htmlspecialchars($_POST['login']));
+        $firstname = trim(htmlspecialchars($_POST['firstname']));
+        $lastname = trim(htmlspecialchars($_POST['lastname']));
+        $password = $_POST['password'];
 
-    if ($user) {
-       //header("Location: login.php?user_id=" . $user->id);
-        exit;
-    } else {
-        echo 'Une erreur s\'est produite lors de l\'inscription.';
+        // Mettez à jour les données de l'utilisateur en utilisant la méthode updateUser
+        $updated = $userCrud->updateUser($userId, $login, $firstname, $lastname, $password);
+
+        if ($updated) {
+            // Les données de l'utilisateur ont été mises à jour avec succès
+            echo "Les informations de l'utilisateur ont été mises à jour avec succès.";
+            // Vous pouvez également mettre à jour les informations affichées à l'écran
+            $user = $userCrud->getUserById($userId);
+        } else {
+            echo "Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur.";
+        }
     }
-
-
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -40,22 +41,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1><?php echo "Bienvenue, " . $user->firstname . " " . $user->lastname; ?></h1>
 
-
     <form action="" method="post">
+        <label for="login">Your login :</label>
+        <input type="text" value="<?php echo $user->login; ?>" name="login">
 
-    <label for="login">Your login :</label>
-    <input type="text" placeholder="">
+        <label for="firstname">Your First Name :</label>
+        <input type="text" value="<?php echo $user->firstname; ?>" name="firstname">
 
-    <label for="firstname">Your First Name :</label>
-    <input type="text" placeholder="">
+        <label for="lastname">Your Last Name :</label>
+        <input type="text" value="<?php echo $user->lastname; ?>" name="lastname">
 
-    <label for="lastname">Your Last Name :</label>
-    <input type="text" placeholder="">
+        <label for="password">Password : </label>
+        <input type="password" name="password" placeholder="********">
 
-    <label for="password">Password : </label>
-    <input type="text" placeholder="********">
-
-        <button type="submit">Mettre à jour</button>
+        <input type="submit" value="Mettre à jour">
     </form>
 </body>
 </html>

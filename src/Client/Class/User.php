@@ -61,20 +61,32 @@ class UserCrud
     }
  
 
-    public function updateUser($id,$username, $firstname, $lastname, $password)
+    public function updateUser($id, $login, $firstname, $lastname, $password)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $stmt = $this->db->prepare("UPDATE users SET login = :login, firstname = :firstname, lastname = :lastname, password = :password WHERE id = :id");
+        $stmt = $this->db->prepare("SELECT id FROM users WHERE login = :login AND id != :id");
         $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':firstname', $firstname);
-        $stmt->bindParam(':lastname', $lastname);
-        $stmt->bindParam(':password', $hashedPassword);
-
-        return $stmt->execute();
+        $stmt->bindParam(':login', $username);
+        $stmt->execute();
+    
+        $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
+    
+        if (!$existingUser) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+            $stmt = $this->db->prepare("UPDATE users SET login = :login, firstname = :firstname, lastname = :lastname, password = :password WHERE id = :id");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':login', $login);
+            $stmt->bindParam(':firstname', $firstname);
+            $stmt->bindParam(':lastname', $lastname);
+            $stmt->bindParam(':password', $hashedPassword);
+    
+            return $stmt->execute();
+        } else {
+            return false;
+        }
     }
-
+    
+    
     public function deleteUser($id)
     {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
