@@ -20,10 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="text" id="lastname" name="lastname" required><br><br>
 
     <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="password" required><br><br>
+    <input type="password" id="password" name="password" placeholder="********" required><br><br>
 
     <input type="submit" value="S'inscrire">
 </form>

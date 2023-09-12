@@ -46,8 +46,7 @@ class UserCrud
 
 
     public function loginUser($username, $password)
-{
-    // Recherchez l'utilisateur par son nom d'utilisateur (login)
+    {
     $stmt = $this->db->prepare("SELECT * FROM users WHERE login = :login");
     $stmt->bindParam(':login', $username);
     $stmt->execute();
@@ -62,16 +61,16 @@ class UserCrud
         // Échec de la connexion
         return false;
     }
-}
+    }
+ 
 
-
-    public function updateUser($id, $username, $firstname, $lastname, $password)
+    public function updateUser($id,$username, $firstname, $lastname, $password)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $this->db->prepare("UPDATE users SET username = :username, firstname = :firstname, lastname = :lastname, password = :password WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE users SET login = :login, firstname = :firstname, lastname = :lastname, password = :password WHERE id = :id");
         $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':login', $login);
         $stmt->bindParam(':firstname', $firstname);
         $stmt->bindParam(':lastname', $lastname);
         $stmt->bindParam(':password', $hashedPassword);
