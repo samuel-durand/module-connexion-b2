@@ -10,14 +10,7 @@ if (isset($_SESSION['user_id'])) {
 
     $user = $userCrud->getUserById($userId);
 
-    if ($user) {
-        echo "Bienvenue, " . $user->firstname . " " . $user->lastname;
-    } else {
-        echo "Utilisateur introuvable.";
-    }
-} else {
-    header("Location: login.php");
-    exit;
+        
 }
 ?>
 
