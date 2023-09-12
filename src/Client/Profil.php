@@ -56,5 +56,6 @@ if (isset($_SESSION['user_id'])) {
 
         <input type="submit" value="Mettre à jour">
     </form>
+    <a href="logout.php"><button>deconnexion</button></a>
 </body>
 </html>
