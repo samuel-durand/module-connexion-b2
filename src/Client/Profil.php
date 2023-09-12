@@ -9,8 +9,6 @@ if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
     $user = $userCrud->getUserById($userId);
-
-        
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

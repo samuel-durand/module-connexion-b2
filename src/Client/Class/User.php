@@ -52,13 +52,10 @@ class UserCrud
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_OBJ);
 
-    // Vérifiez si l'utilisateur existe et si le mot de passe est valide
     if ($user && password_verify($password, $user->password)) {
-        // L'utilisateur est connecté avec succès
         $_SESSION['user_id'] = $user->id;
         return $user;
     } else {
-        // Échec de la connexion
         return false;
     }
     }
@@ -92,7 +89,6 @@ try {
 
     $userCrud = new UserCrud($db);
 
-    // Exemple d'utilisation
     $users = $userCrud->getUsers();
     print_r($users);
 } catch (PDOException $e) {
