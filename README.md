@@ -8,4 +8,7 @@ Mise à Jour de Profil : mettez à jour vos identifiant et un boutton supprimer 
 panel admin : permet de voir tout les users de la bdd et aussi de supprimer un user si besoin 
 
 
+un menu burger est disponible pour naviguer dans le site plus facilement
+
+
 lien plesk : https://samuel-durand.students-laplateforme.io/module-connexion-b2/src/Client/Index.php
