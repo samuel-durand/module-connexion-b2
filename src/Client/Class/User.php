@@ -29,43 +29,51 @@ class UserCrud
         }
     }
     
-
     public function getUsers()
     {
         $stmt = $this->db->query("SELECT * FROM users");
         return $stmt->fetchAll(PDO::FETCH_OBJ);
+        echo json_encode($user);
+
     }
 
-    public function getUserById($id)
+    public function getUserById($userId, $returnName = false)
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $userId);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+    
+        if ($returnName) {
+            $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $userData ? $userData['firstname'] . ' ' . $userData['lastname'] : '';
+        } else {
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+        }
     }
-
+    
+    
 
     public function loginUser($username, $password)
     {
-    $stmt = $this->db->prepare("SELECT * FROM users WHERE login = :login");
-    $stmt->bindParam(':login', $username);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_OBJ);
-
-    if ($user && password_verify($password, $user->password)) {
-        $_SESSION['user_id'] = $user->id;
-        return $user;
-    } else {
-        return false;
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE login = :login");
+        $stmt->bindParam(':login', $username);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC); 
+    
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            return $user;
+        } else {
+            return false;
+        }
     }
-    }
- 
+    
 
     public function updateUser($id, $login, $firstname, $lastname, $password)
     {
         $stmt = $this->db->prepare("SELECT id FROM users WHERE login = :login AND id != :id");
         $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':login', $username);
+        $stmt->bindParam(':login', $login);
         $stmt->execute();
     
         $existingUser = $stmt->fetch(PDO::FETCH_OBJ);
@@ -102,7 +110,7 @@ try {
     $userCrud = new UserCrud($db);
 
     $users = $userCrud->getUsers();
-    print_r($users);
+    //print_r($users);
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }

@@ -1,22 +1,30 @@
-document.getElementById('registrationForm').addEventListener('submit', async function (e) {
-    e.preventDefault(); // Empêche la soumission du formulaire par défaut
+document.addEventListener('DOMContentLoaded', function() {
+    const registrationForm = document.getElementById('registrationForm');
 
-    const formData = new FormData(this);
+    registrationForm.addEventListener('submit', function(e) {
+        const formData = new FormData(this);
 
-    try {
-        const response = await fetch('Register.php', {
+        fetch('Register.php', {
             method: 'POST',
             body: formData
+        })
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Erreur lors de la requête vers register.php');
+            }
+        })
+        .then(function(data) {
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                console.log('Données renvoyées par le serveur :', data);
+                window.location.href = `login.php?id=${data.userId}`;
+            }
+        })
+        .catch(function(error) {
+            console.error('Erreur lors de la requête fetch :', error);
         });
-
-        if (response.ok) {
-            const data = await response.text(); // Vous pouvez utiliser .json() si la réponse est au format JSON
-
-            console.log('Données renvoyées par register.php :', data);
-        } else {
-            console.error('Erreur lors de la requête vers register.php');
-        }
-    } catch (error) {
-        console.error('Erreur lors de la requête fetch :', error);
-    }
+    });
 });
