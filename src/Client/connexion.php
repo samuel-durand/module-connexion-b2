@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: profil.php?id=" . $user['id']);
         exit;
     } else {
-        echo 'Échec de la connexion. Veuillez vérifier vos identifiants.';
+        $errorMessage = "Échec de la connexion. Veuillez vérifier vos identifiants.";
     }
 }
 
@@ -60,6 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </form>
+
+        <?php
+            if (isset($errorMessage)) {
+                echo '<div style="color: red;">' . $errorMessage . '</div>';
+            }
+            ?>
     </div>
 </body>
 </html>

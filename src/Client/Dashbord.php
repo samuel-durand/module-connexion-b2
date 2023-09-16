@@ -1,19 +1,23 @@
 <?php
-require_once('Class/.php');
+session_start();
+require_once('Class/User.php');
 $userCrud = new UserCrud($db);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
-    $userIdToDelete = $_POST['user_id'];
-    $userToDelete = $userCrud->getUserById($userId); // Obtenir les informations de l'utilisateur à supprimer
-    if ($userToDelete) {
-        $deleted = $userCrud->deleteUser($id);
-        if ($deleted) {
-            echo "L'utilisateur avec l'ID $id (Login: {$id['login']}) a été supprimé avec succès.";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['delete'])) {
+        $userIdToDelete = $_POST['user_id'];
+        $userToDelete = $userCrud->getUserById($userIdToDelete); // Obtenir les informations de l'utilisateur à supprimer
+        
+        if ($userToDelete) {
+            $deleted = $userCrud->deleteUser($userIdToDelete);
+            if ($deleted) {
+                echo "L'utilisateur avec l'ID $userIdToDelete (Login: {$userToDelete['login']}) a été supprimé avec succès.";
+            } else {
+                echo "Une erreur s'est produite lors de la suppression de l'utilisateur avec l'ID $userIdToDelete.";
+            }
         } else {
-            echo "Une erreur s'est produite lors de la suppression de l'utilisateur avec l'ID $id.";
+            echo "Utilisateur non trouvé avec l'ID $userIdToDelete.";
         }
-    } else {
-        echo "Utilisateur non trouvé avec l'ID$id.";
     }
 }
 
@@ -21,11 +25,17 @@ $users = $userCrud->getUsers();
 ?>
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="styles.css">
 <html>
 <head>
     <title>Liste des Utilisateurs</title>
 </head>
 <body>
+
+<?php include('Header.php');?>
+<script src="menu.js"></script>
+
+<div id="table"> 
     <h2>Liste des Utilisateurs</h2>
 
     <table border="1">
@@ -55,5 +65,7 @@ $users = $userCrud->getUsers();
             <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
+
 </body>
 </html>

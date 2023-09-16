@@ -462,3 +462,58 @@ form .form-row .input-data {
   line-height: 1.5;
   color: #ffffff;
 }
+
+
+/* Styles pour le conteneur */
+#table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%; /* Largeur du conteneur */
+  margin: 0 auto; /* Centrer le conteneur horizontalement */
+  padding: 20px;
+  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure avec transparence */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  backdrop-filter: blur(10px); /* Flou du fond pour effet de verre */
+  text-align: center; /* Centrer le contenu à l'intérieur du conteneur */
+}
+
+/* Styles pour la table */
+#table {
+  width: 40%;
+  border-collapse: collapse;
+  background: transparent;
+  text-align: left; /* Aligner le texte à gauche dans la table */
+}
+
+/* Styles pour les cellules de la table */
+th, td {
+  padding: 8px;
+  text-align: center; /* Centrer le texte à l'intérieur des cellules */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Bordure inférieure avec transparence */
+}
+
+/* Styles pour les en-têtes de colonne */
+th {
+  background: rgba(255, 255, 255, 0.2); /* Fond de l'en-tête avec transparence */
+  font-weight: bold;
+}
+
+
+
+input[type="submit"] {
+  padding: 5px 10px;
+  background: rgba(255, 0, 0, 0.7); /* Couleur de fond rouge avec transparence */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+input[type="submit"]:hover {
+  background: rgba(255, 0, 0, 1); /* Couleur de fond rouge plus intense au survol */
+}

@@ -8,15 +8,16 @@ class UserCrud
         $this->db = $db;
     }
 
-    public function createUser($username, $firstname, $lastname, $password)
+    public function createUser($username, $firstname, $lastname, $password, $admin = 0)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     
-        $stmt = $this->db->prepare("INSERT INTO users (login, firstname, lastname, password) VALUES (:login, :firstname, :lastname, :password)");
+        $stmt = $this->db->prepare("INSERT INTO users (login, firstname, lastname, password, admin) VALUES (:login, :firstname, :lastname, :password, :admin)");
         $stmt->bindParam(':login', $username);
         $stmt->bindParam(':firstname', $firstname);
         $stmt->bindParam(':lastname', $lastname);
         $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':admin', $admin); 
     
         if ($stmt->execute()) {
             $userId = $this->db->lastInsertId();

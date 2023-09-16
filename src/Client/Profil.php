@@ -51,6 +51,8 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<?php include('Header.php');?>
+<script src="menu.js"></script>
     <div class="container">
         <?php
         if ($user) {
@@ -94,7 +96,6 @@ if (isset($_SESSION['user_id'])) {
                 <div class="input-data">
                     <button type="submit" class="btn" name="update">Mettre à jour</button>
                     <button type="submit" class="btn" name="delete">Supprimer le compte</button>
-                    <a href="logout.php"><button class="btn">Déconnexion</button></a>
                     <div class="inner"></div>
                 </div>
             </div>
