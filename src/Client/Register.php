@@ -5,17 +5,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = trim(htmlspecialchars($_POST['login']));
     $firstname = trim(htmlspecialchars($_POST['firstname']));
     $lastname = trim(htmlspecialchars($_POST['lastname']));
-    $password = $_POST['password']; 
-    $user = $userCrud->createUser($login, $firstname, $lastname, $password);
+    $password = trim(htmlspecialchars($_POST['password']));
+    
+    // Vérifiez d'abord si l'utilisateur existe déjà
+    $existingUser = $userCrud->loginUser($login, $password);
 
-
-    if ($user) {
-        header("Location: login.php?id=" . $user['id']);
-        echo json_encode($user);
+    if ($existingUser) {
+        // L'utilisateur existe déjà, retournez un message d'erreur
+        echo json_encode(["error" => "Cet utilisateur existe déjà."]);
     } else {
-        echo json_encode(["error" => "Une erreur s'est produite lors de l'inscription."]);
+        // L'utilisateur n'existe pas, essayez de créer un nouvel utilisateur
+        $user = $userCrud->createUser($login, $firstname, $lastname, $password);
+
+        if ($user) {
+            header("Location: connexion.php?id=" . $user['id']);
+            echo json_encode($user);
+        } else {
+            echo json_encode(["error" => "Une erreur s'est produite lors de l'inscription."]);
+        }
     }
 }
+
 ?>
 
 
@@ -30,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+<?php include('Header.php');?>
+<script src="menu.js"></script>
 <div class="container" >
     <div class="text">Inscription</div>
     <form method="POST" id="registrationForm" class="gradient-border">

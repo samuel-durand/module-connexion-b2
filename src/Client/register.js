@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const registrationForm = document.getElementById('registrationForm');
 
     registrationForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+
         const formData = new FormData(this);
 
         fetch('Register.php', {
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 console.log('Données renvoyées par le serveur :', data);
                 window.location.href = `login.php?id=${data.userId}`;
+                alert('Vous êtes inscrit'); // Ajouter une alerte
             }
         })
         .catch(function(error) {

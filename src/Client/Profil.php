@@ -18,38 +18,31 @@ if (isset($_SESSION['user_id'])) {
             $lastname = trim(htmlspecialchars($_POST['lastname']));
             $password = $_POST['password'];
 
+            // Mettre à jour les données de l'utilisateur
             $updated = $userCrud->updateUser($userId, $login, $firstname, $lastname, $password);
 
             if ($updated) {
-                // Rediriger l'utilisateur avec l'ID de l'utilisateur dans l'URL
-                header("Location: Profil.php?id=$userId");
-                exit();  
+                // Rediriger l'utilisateur vers la page de profil
+                header("Location: Profil.php");
+                exit();
             } else {
-                //echo "Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur.";
+                echo "Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur.";
             }
         } elseif (isset($_POST['delete'])) {
-            // Récupérer l'ID de l'utilisateur à supprimer à partir de l'URL
-            $idToDelete = isset($_GET['id']) ? $_GET['id'] : null;
+            // Supprimer l'utilisateur
+            $deleted = $userCrud->deleteUser($userId);
 
-            if ($idToDelete) {
-                // Supprimer l'utilisateur
-                $deleted = $userCrud->deleteUser($idToDelete);
-
-                if ($deleted) {
-                    header("Location: index.php");
-                    exit();
-                } else {
-                    //echo "Une erreur s'est produite lors de la suppression du compte.";
-                }
+            if ($deleted) {
+                // Rediriger vers la page d'accueil ou une autre page après la suppression
+                header("Location: index.php");
+                exit();
             } else {
-               // echo "ID de l'utilisateur à supprimer non spécifié.";
+                echo "Une erreur s'est produite lors de la suppression du compte.";
             }
         }
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -70,21 +63,21 @@ if (isset($_SESSION['user_id'])) {
         <form action="" method="post">
             <div class="form-row">
                 <div class="input-data">
-                    <input type="text" value="<?php echo isset($userData['login']) ? $userData['login'] : ''; ?>" name="login">
+                    <input type="text" value="<?php echo isset($user['login']) ? $user['login'] : ''; ?>" name="login">
                     <label for="login">Your login :</label>
                     <div class="underline"></div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="input-data">
-                    <input type="text" value="<?php echo isset($userData['firstname']) ? $userData['firstname'] : ''; ?>" name="firstname">
+                    <input type="text" value="<?php echo isset($user['firstname']) ? $user['firstname'] : ''; ?>" name="firstname">
                     <label for="firstname">Your First Name :</label>
                     <div class="underline"></div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="input-data">
-                    <input type="text" value="<?php echo isset($userData['lastname']) ? $userData['lastname'] : ''; ?>" name="lastname">
+                    <input type="text" value="<?php echo isset($user['lastname']) ? $user['lastname'] : ''; ?>" name="lastname">
                     <label for="lastname">Your Last Name :</label>
                     <div class="underline"></div>
                 </div>
@@ -99,8 +92,8 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="form-row">
                 <div class="input-data">
-                    <button type="submit" class="btn">Mettre à jour</button>
-                    <button type="submit" name="delete" class="btn">Supprimer le compte</button>
+                    <button type="submit" class="btn" name="update">Mettre à jour</button>
+                    <button type="submit" class="btn" name="delete">Supprimer le compte</button>
                     <a href="logout.php"><button class="btn">Déconnexion</button></a>
                     <div class="inner"></div>
                 </div>
