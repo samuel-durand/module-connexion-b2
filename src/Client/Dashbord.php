@@ -11,12 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($userToDelete) {
             $deleted = $userCrud->deleteUser($userIdToDelete);
             if ($deleted) {
-                echo "L'utilisateur avec l'ID $userIdToDelete (Login: {$userToDelete['login']}) a été supprimé avec succès.";
+                $succesMessage = "L'utilisateur avec l'ID $userIdToDelete (Login: {$userToDelete['login']}) a été supprimé avec succès.";
+
             } else {
-                echo "Une erreur s'est produite lors de la suppression de l'utilisateur avec l'ID $userIdToDelete.";
+
+                $errorMessage = "Une erreur s'est produite lors de la suppression de l'utilisateur avec l'ID $userIdToDelete.";
+
             }
         } else {
-            echo "Utilisateur non trouvé avec l'ID $userIdToDelete.";
+            $errorMessage = "Utilisateur non trouvé avec l'ID $userIdToDelete.";
+
         }
     }
 }
@@ -65,6 +69,19 @@ $users = $userCrud->getUsers();
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <?php
+            if (isset($succesMessage)) {
+                echo '<div style="color: green;">' . $succesMessage . '</div>';
+            }
+            ?>
+
+<?php
+            if (isset($errorMessage)) {
+                echo '<div style="color: red;">' . $errorMessage . '</div>';
+            }
+            ?>
+
     </div>
 
 </body>
