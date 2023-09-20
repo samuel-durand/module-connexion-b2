@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +10,7 @@
 </head>
 <body>
 <?php include('Header.php');?>
+
 <script src="menu.js"></script>
 <div class="index">
         <main id="features">
@@ -19,4 +22,9 @@
             </ul>
         </main>
     </div>
+
+
+
+    <script src="player.js"></script>
+
 </html>

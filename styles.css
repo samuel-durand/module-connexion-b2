@@ -517,3 +517,49 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background: rgba(255, 0, 0, 1); /* Couleur de fond rouge plus intense au survol */
 }
+
+/*player */
+
+
+
+.music-player {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.player-controls {
+  margin-top: 10px;
+}
+
+button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 5px;
+  background-color: #ccc;
+  margin-top: 10px;
+}
+
+.progress {
+  height: 100%;
+  width: 0;
+  background-color: #007BFF;
+}
+
+.track-info {
+  margin-top: 10px;
+}
+
+#current-time, #duration {
+  font-weight: bold;
+}

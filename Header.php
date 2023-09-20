@@ -19,6 +19,8 @@
             if ($user && $user['admin'] == 1) {
                 // Si l'utilisateur est administrateur, affichez le lien vers le panneau d'administration
                 echo '<li><a href="Dashbord.php">Panneau d\'administration</a></li>';
+                echo '<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">try this</a></li>';
+
             }
 
             // Affichez également les liens du profil et de déconnexion
@@ -27,6 +29,7 @@
         } else {
             // Si non connecté, affichez le lien de connexion et d'inscription
             echo '<li><a href="connexion.php">Connexion</a></li>';
+            echo '<li><a href="index.php">Acceuil</a></li>';
             echo '<li><a href="inscription.php">Inscription</a></li>';
         }
         ?>

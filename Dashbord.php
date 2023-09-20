@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: connexion.php');
+    exit();
+}
+
+
 require_once('Class/User.php');
 $userCrud = new UserCrud($db);
 
@@ -53,20 +60,28 @@ $users = $userCrud->getUsers();
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $user) : ?>
-                <tr>
-                    <td><?php echo $user->id; ?></td>
-                    <td><?php echo $user->login; ?></td>
-                    <td><?php echo $user->firstname; ?></td>
-                    <td><?php echo $user->lastname; ?></td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-                            <input type="submit" name="delete" value="Supprimer">
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+        <?php foreach ($users as $user) : ?>
+    <?php if ($user->id !== 1) : ?>
+        <tr>
+            <td><?php echo $user->id; ?></td>
+            <td><?php echo $user->login; ?></td>
+            <td><?php echo $user->firstname; ?></td>
+            <td><?php echo $user->lastname; ?></td>
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
+                    <input type="submit" name="delete" value="Supprimer">
+                </form>
+            </td>
+        </tr>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+
+
+
+
+
         </tbody>
     </table>
 
